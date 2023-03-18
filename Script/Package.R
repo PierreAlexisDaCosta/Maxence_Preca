@@ -38,5 +38,6 @@ library(gtsummary)
 #gitcreds::gitcreds_set()
 
 #usethis::use_git()
-usethis::use_github()
+#usethis::use_github()
+
 
