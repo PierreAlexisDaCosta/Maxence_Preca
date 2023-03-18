@@ -32,8 +32,8 @@ library(gtsummary)
 #This will take you to the appropriate page on the GitHub website, 
 #where you’ll give your token a name and copy it (don’t lose it because 
 #it will never appear again!).
-# Token_name : M2_CRC_Immunex_master_project_I2P 
-# Token : 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
+# Token_name : ANEMF_Enquete_Preca 
+# Token : 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
 #gitcreds::gitcreds_set()
 
 #usethis::use_git()
