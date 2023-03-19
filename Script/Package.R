@@ -34,10 +34,16 @@ library(gtsummary)
 #where you’ll give your token a name and copy it (don’t lose it because 
 #it will never appear again!).
 # Token_name : ANEMF_Enquete_Preca 
-# Token : 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
+# Token : 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
 #gitcreds::gitcreds_set()
 
 #usethis::use_git()
 #usethis::use_github()
 
+pacman::p_load(rio,       # to import data
+               here,      # to locate files
+               tidyverse, # to clean, handle, and plot the data (includes ggplot2 package)
+               apyramid,  # a package dedicated to creating age pyramids
+               janitor,   # tables and cleaning data
+               stringr)   # working with strings for titles, captions, etc.
 
