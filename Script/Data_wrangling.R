@@ -23,6 +23,7 @@ pre_processed_data <-
            (`Quelle est votre année d'étude ?` == "DFASM3 (D4)" & 
               `Êtes-vous externe pour l'année 2022-2023` == "Oui")) %>%
   select(- `Êtes-vous externe pour l'année 2022-2023`) %>%
+  select(- `Combien de personnes avez-vous à votre charge ?`) %>%
   as_tibble()
 
 pre_processed_data <- 
@@ -227,10 +228,117 @@ pre_processed_data <-
              yes = "Cessation de location de logement",
              no = "Non"))
 
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Saut_de_repas = 
+           ifelse(
+             str_detect(pre_processed_data$`Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`,
+                        "Saut de repas") == T,
+             yes = "Saut de repas",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Diminution_hygiène = 
+           ifelse(
+             str_detect(pre_processed_data$`Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`,
+                        "Diminution de l'hygiène de vie") == T,
+             yes = "Diminution de l'hygiène de vie",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Renonciation_soins = 
+           ifelse(
+             str_detect(pre_processed_data$`Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`,
+                        "Renonciation à des soins") == T,
+             yes = "Renonciation à des soins",
+             no = "Non"))
 
 
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Renonciation_loisirs = 
+           ifelse(
+             str_detect(pre_processed_data$`Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`,
+                        "Renonciation à des loisirs") == T,
+             yes = "Renonciation à des loisirs",
+             no = "Non"))
 
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Impossibilité_vacances = 
+           ifelse(
+             str_detect(pre_processed_data$`Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`,
+                        "Impossibilité de partir en vacances") == T,
+             yes = "Impossibilité de partir en vacances",
+             no = "Non"))
 
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Aucun_problème = 
+           ifelse(
+             str_detect(pre_processed_data$`Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`,
+                        "Cela n'entraîne aucune de ces situations") == T,
+             yes = "Cela n'entraîne aucune de ces situations",
+             no = "Non"))
+
+# En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?	
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Bourse_mérite = 
+           ifelse(
+             str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
+                        "Une bourse au mérite") == T,
+             yes = "Une bourse au mérite",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Allocation_logement = 
+           ifelse(
+             str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
+                        "Une allocation logement (APL/ALS)") == T,
+             yes = "Une allocation logement (APL/ALS)",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Allocation_familiale = 
+           ifelse(
+             str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
+                        "Une allocation familiale") == T,
+             yes = "Une allocation familiale",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Allocation_chômage = 
+           ifelse(
+             str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
+                        "Une allocation chômage") == T,
+             yes = "Une allocation chômage",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Aucune = 
+           ifelse(
+             str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
+                        "Aucune de ces aides") == T,
+             yes = "Aucune de ces aides",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Autres_aides = 
+           ifelse(
+             str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
+                        "Aucune de ces aides|Une bourse au mérite|Une allocation logement|Une allocation familiale|Une allocation chômage") == F,
+             yes = "Autre",
+             no = "Non"))
+
+pre_processed_data$
 # Processing ####
 processed_data <-
   pre_processed_data %>% 
@@ -238,15 +346,16 @@ processed_data <-
   select(- `Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`)	%>%
   view
 
-
-
+processed_data %>% view
 # Table summary ####
 str(pre_processed_data)
 
 processed_data %>% 
   select(- `Quel âge avez-vous ?`) %>%
   select(- `De quelle UFR êtes-vous ?`) %>%
-  select(-`Au cours de ce semestre, avez-vous bénéficié de Revenu de stage ?` : `Au cours de ce semestre, avez-vous bénéficié de vos Économies, épargnes globalement disponibles sur l'année 2022 ?`) %>%
+  select(-`Au cours de ce semestre, avez-vous bénéficié de Revenu de stage ?` : Aucun_problème) %>%
+  select(- Obligation_prêt_étudiant:Aucun_problème) %>% 
   tbl_summary() 
 
 summary(raw_data)
+
