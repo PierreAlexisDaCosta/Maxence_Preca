@@ -24,6 +24,7 @@ pre_processed_data <-
               `Êtes-vous externe pour l'année 2022-2023` == "Oui")) %>%
   select(- `Êtes-vous externe pour l'année 2022-2023`) %>%
   select(- `Combien de personnes avez-vous à votre charge ?`) %>%
+  rename(`De quel type d'activité rémunérée s'agissait-il ?` = `De quel type d'activité rémunérée s'agissait-il ?...35`) %>%
   as_tibble()
 
 pre_processed_data <- 
@@ -298,8 +299,8 @@ pre_processed_data <-
   mutate(Allocation_logement = 
            ifelse(
              str_detect(pre_processed_data$`En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`,
-                        "Une allocation logement (APL/ALS)") == T,
-             yes = "Une allocation logement (APL/ALS)",
+                        "Une allocation logement") == T,
+             yes = "Une allocation logement",
              no = "Non"))
 
 pre_processed_data <-
@@ -338,13 +339,285 @@ pre_processed_data <-
              yes = "Autre",
              no = "Non"))
 
-pre_processed_data$
+# Les membres de votre famille vous aident-ils : [En vous donnant des provisions alimentaires]	
+processed_data$`Les membres de votre famille vous aident-ils : [En vous donnant des provisions alimentaires]` <-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous donnant des provisions alimentaires]`)
+
+#Les membres de votre famille vous aident-ils : [En vous prêtant une voiture]	
+processed_data$`Les membres de votre famille vous aident-ils : [En vous prêtant une voiture]` <-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous prêtant une voiture]`)
+
+#Les membres de votre famille vous aident-ils : [En vous faisant de "gros" cadeaux (hifi, TV, meubles, vacances...)]	
+
+processed_data$`Les membres de votre famille vous aident-ils : [En vous faisant de "gros" cadeaux (hifi, TV, meubles, vacances...)]`<-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous faisant de "gros" cadeaux (hifi, TV, meubles, vacances...)]`)
+
+#Les membres de votre famille vous aident-ils : [En vous faisant de "petits" cadeaux (disques, livres, vêtements...)]	
+processed_data$`Les membres de votre famille vous aident-ils : [En vous faisant de "petits" cadeaux (disques, livres, vêtements...)]`<-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous faisant de "petits" cadeaux (disques, livres, vêtements...)]`)
+
+#Les membres de votre famille vous aident-ils : [En vous finançant le loyer de votre logement]	
+
+processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant le loyer de votre logement]` <-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant le loyer de votre logement]`)
+
+#Les membres de votre famille vous aident-ils : [En vous finançant vos frais de déplacements (abonnement de bus, etc)]	
+processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant vos frais de déplacements (abonnement de bus, etc)]` <-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant vos frais de déplacements (abonnement de bus, etc)]`)
+
+#Les membres de votre famille vous aident-ils : [En vous finançant une partie ou l'entièreté de vos charge (électricité, eau)]	
+processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant une partie ou l'entièreté de vos charge (électricité, eau)]`	<- 
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant une partie ou l'entièreté de vos charge (électricité, eau)]`)
+
+#Les membres de votre famille vous aident-ils : [En vous finançant une partie ou l'entièreté de vos abonnements téléphoniques ou internet]
+processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant une partie ou l'entièreté de vos abonnements téléphoniques ou internet]` <-
+  factor(processed_data$`Les membres de votre famille vous aident-ils : [En vous finançant une partie ou l'entièreté de vos abonnements téléphoniques ou internet]`)
+
+#Depuis le début de l'année 2022, vous est-il arrivé ...	
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Epargner = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "D’épargner") == T,
+             yes = "Epargner",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Découvert_banque = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "D'avoir un découvert à la banque") == T,
+             yes = "Découvert à la banque",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Emprunt_banque = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "D'emprunter à la banque") == T,
+             yes = "D'emprunter à la banque",
+             no = "Non"))
+
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Refus_prêt = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "D'avoir un refus de prêt") == T,
+             yes = "Refus de prêt",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Demande_aide_famille = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "De demander une aide exceptionnelle à votre famille") == T,
+             yes = "De demander une aide exceptionnelle à votre famille	",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Demande_aide_amis = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "De demander une aide exceptionnelle à vos amis") == T,
+             yes = "De demander une aide exceptionnelle à vos amis",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Restriction_activités = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "De vous restreindre") == T,
+             yes = "De vous restreindre dans vos activités sociales",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Piocher_économies = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "De piocher dans vos économies") == T,
+             yes = "De piocher dans vos économies",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Demande_aide_sociale = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "De demander une aide sociale exceptionnelle") == T,
+             yes = "De demander une aide sociale exceptionnelle",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Travailler = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "De vous mettre à travailler") == T,
+             yes = "De vous mettre à travailler",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Renoncer_soins = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "Renoncer à des soins") == T,
+             yes = "Renoncer à des soins",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Rien = 
+           ifelse(
+             str_detect(pre_processed_data$`Depuis le début de l'année 2022, vous est-il arrivé ...`,
+                        "Rien de cela") == T,
+             yes = "Rien de cela",
+             no = "Non"))
+
+#Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, 
+#dans quelle mesure les propositions suivantes correspondent-elles
+#à votre situation ? [Elle(s) m'est (me sont) indispensable(s) pour vivre]
+pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) m'est (me sont) indispensable(s) pour vivre]` <-
+  factor(pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) m'est (me sont) indispensable(s) pour vivre]`)
+
+#Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) m'assure(nt) l'indépendance vis à vis de mes parents]	
+pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) m'assure(nt) l'indépendance vis à vis de mes parents]` <-
+  factor(pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) m'assure(nt) l'indépendance vis à vis de mes parents]`)
+  
+#Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) me permet(tent) d'acquérir une expérience professionnelle]	
+pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) me permet(tent) d'acquérir une expérience professionnelle]` <-
+  factor(pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) me permet(tent) d'acquérir une expérience professionnelle]`)
+
+#Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) me permet(tent) d'occuper mon temps libre]	
+pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) me permet(tent) d'occuper mon temps libre]` <-
+  factor(pre_processed_data$`Concernant votre (vos) activité(s) rémunérée(s) durant l'année universitaire, dans quelle mesure les propositions suivantes correspondent-elles à votre situation ? [Elle(s) me permet(tent) d'occuper mon temps libre]`)
+
+#De quel type d'activité rémunérée s'agissait-il ?
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Employé_hopîtal = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "hôpital") == T,
+             yes = "Employé d'hôpital",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Babysitter_aide_à_la_personne = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "Baby-sitter") == T,
+             yes = "Babysitter_aide_à_la_personne",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Employé_université = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "université") == T,
+             yes = "Employé_université",
+             no = "Non"))
+
+
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Cours_particuliers = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "particuliers") == T,
+             yes = "Cours_particuliers",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Intérim = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "Intérim") == T,
+             yes = "Intérim",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Employé_commerce_ou_restauration = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "commerce") == T,
+             yes = "commerce",
+             no = "Non"))
+
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Employé_administratif = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "administratif") == T,
+             yes = "administratif",
+             no = "Non"))
+
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Enseignant = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "Enseignant") == T,
+             yes = "Enseignant",
+             no = "Non"))
+
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Animateur = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "Animateur") == T,
+             yes = "Animateur",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Agent_de_service = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "Agent de service") == T,
+             yes = "Agent de service",
+             no = "Non"))
+
+pre_processed_data <-
+  pre_processed_data %>%
+  mutate(Autre_travail = 
+           ifelse(
+             str_detect(pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?`,
+                        "Agent de service|Animateur|enseignant|administratif|commerce|Intérim|particuliers|université|Baby-sitter|hôpital") == FALSE |
+               pre_processed_data$`De quel type d'activité rémunérée s'agissait-il ?` == "Autre",
+             yes = "Autre_travail",
+             no = "Non"))
+
+
+
+#Concernant vos activités rémunérées, diriez-vous qu’elles......41	####
+
 # Processing ####
 processed_data <-
   pre_processed_data %>% 
-  select(-`Au cours de ce semestre, de quelle(s) source(s) de financement bénéficiez-vous ?`) %>%
+  select(- `Au cours de ce semestre, de quelle(s) source(s) de financement bénéficiez-vous ?`) %>%
   select(- `Le fait de ne pas avoir de bourses pendant les 2 mois d’été engendre-t-il une de situations suivantes ?`)	%>%
-  view
+  select(- `En dehors des bourses sur critères sociaux et des aides d’urgence, quelle(s) aide(s) recevez-vous pour cette année universitaire ?`) 
 
 processed_data %>% view
 # Table summary ####
@@ -353,6 +626,9 @@ str(pre_processed_data)
 processed_data %>% 
   select(- `Quel âge avez-vous ?`) %>%
   select(- `De quelle UFR êtes-vous ?`) %>%
+  select(- `Depuis le début de l'année 2022, vous est-il arrivé ...`) %>%
+  select(- Epargner:Rien) %>%
+  select(- Bourse_mérite:Autres_aides)%>%
   select(-`Au cours de ce semestre, avez-vous bénéficié de Revenu de stage ?` : Aucun_problème) %>%
   select(- Obligation_prêt_étudiant:Aucun_problème) %>% 
   tbl_summary() 
